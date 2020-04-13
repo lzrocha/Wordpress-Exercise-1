@@ -1,66 +1,38 @@
 # Hosting WordPress on AWS
-Stack to deploy a highly available, elastic, scalable WordPress environment (AWS Free Tier resources only).
+highly available, elastic, scalable WordPress environment (AWS Free Tier resources only).
 
-Version 1.0 :satellite:
+Version 2020.4.1 :satellite:
 
 ## Overview
 
-This reference architecture provides a YAML template for deploying WordPress on AWS using a set of resources.
+This reference architecture provides a template for deploying WordPress on AWS using a set of resources.
 
 ![architecture-Overview](images/aws-architecture.png)
 
 
 ## List of Resources
-```YAML
-#CloudFormation
-  AWS::CloudFormation::Interface:
-
-#Compute
-  AWS::AutoScaling::AutoScalingGroup
-  AWS::AutoScaling::LaunchConfiguration
-  AWS::EC2::SecurityGroup
-  AWS::EC2::SecurityGroupIngress
-  AWS::ElasticLoadBalancingV2::Listener
-  AWS::ElasticLoadBalancingV2::LoadBalancer
-  AWS::ElasticLoadBalancingV2::TargetGroup
-
-#Storage
-  AWS::EFS::FileSystem
-  AWS::EFS::MountTarget
-  AWS::S3::Bucket
-
-#Security, Identity, & Compliance
-  AWS::IAM::InstanceProfile
-  AWS::IAM::Policy
-
-#Database
-  AWS::RDS::DBSubnetGroup
-  AWS::RDS::DBInstance
-
-#Networking & Content Delivery
-  AWS::CloudFront::Distribution
-  AWS::CloudFront::CloudFrontOriginAccessIdentity
-  AWS::Route53::RecordSetGroup
+```bash
+#!/bin/bash
+yum update -y aws-cfn-bootstrap
+yum update -y
+yum install httpd24 php70 php70-mysqlnd -y
+cd /var/www/html
+aws s3 cp --recursive s3://YOUR-BUCKET-CODE-NAME . 
+chmod -R 755 wp-content
+chown -R apache:apache wp-content
+chown -R apache /var/www
+chgrp -R apache /var/www
+sed -i 's/localhost/'DATABASE-ENDPOINT'/g' wp-config.php
+sed -i 's/database_name_here/DATABASE-NAME/g' wp-config.php
+sed -i 's/username_here/DATABASE-USERNAME/g' wp-config.php
+sed -i 's/password_here/DATABASE-PASSWORD/g' wp-config.php
+sed -i -e "20 i\define('WP_HOME','https://www.YOURSITE.com');" wp-config.php
+sed -i -e "21 i\define('WP_SITEURL','https://www.YOURSITE.com');" wp-config.php
+cd /etc
+sed -i -e '$  a\*/1 * * * * root aws s3 cp --recursive /var/www/html/wp-content/uploads s3://YOUR-BUCKET-NAME/wp-content/uploads' crontab
+chkconfig httpd on
+service httpd start
 ```
-
-## Parameters
-
-Name | Description | Required
------------- | ------| -------------
-**VpcId** | The VPC ID of an existing VPC | *Yes*
-**Subnet** | The existing subnets | *Yes*
-**Number Of Subnets** | The number of subnets| *Yes*
-**EC2 instance type** | WebServer EC2 instance type | No
-**Key Pair Name** | Name of an existing EC2 KeyPair to enable SSH access to the instances | *Yes*
-**SSHLocation** | The IP address range that can be used to SSH to the EC2 instances | No
-**Number of Instances** | The initial number of WebServer instances | No
-**ALB Certificate ARN** | The AWS Certification Manager certificate ARN for the ALB certificate | No
-**Wordpress DNS** | The main domain name of the WordPress site | *Yes*
-**Database Instance Type** | Database instance class | *Yes*
-**Database Name**| The Amazon RDS master database name. | *Yes*
-**Database User** | The Amazon RDS master username | *Yes*
-**Database Password** | The Amazon RDS master password | *Yes*
-**Performance Mode**| The performance mode of the file system | No
 
 ## Steps to run
 
@@ -79,7 +51,6 @@ You can launch this CloudFormation stack, using your account, in the following A
 
 #### :warning: Requirements :warning:
 
-- User with allowed permissions to CloudFormation
 - Key Pair
 - Hosted Zone on Route53
 - Vpc
