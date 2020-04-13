@@ -1,16 +1,17 @@
-# Hosting WordPress on AWS
-highly available, elastic, scalable WordPress environment (AWS Free Tier resources only).
+# Hosting WordPress on AWS - Exercise 1
 
 Version 2020.4.1 :satellite:
 
 ## Overview
+
+Highly available, elastic, scalable WordPress environment (AWS Free Tier resources only).
 
 This reference architecture provides a template for deploying WordPress on AWS using a set of resources.
 
 ![architecture-Overview](images/aws-architecture.png)
 
 
-## List of Resources
+## Boostrap
 ```bash
 #!/bin/bash
 yum update -y aws-cfn-bootstrap
@@ -48,6 +49,12 @@ You can launch this CloudFormation stack, using your account, in the following A
 | eu-west-1 |EU (Ireland)| [![cloudformation-launch-stack](images/launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/new?stackName=WordPress&templateURL=https://luizfel-templates.s3.amazonaws.com/Wordpress/02-WP-SG-RDS-EFS-S3-ELB-CF-ASG.yaml) |
 | eu-central-1 |EU (Frankfurt)| [![cloudformation-launch-stack](images/launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?region=eu-central-1#/stacks/new?stackName=WordPress&templateURL=https://luizfel-templates.s3.amazonaws.com/Wordpress/02-WP-SG-RDS-EFS-S3-ELB-CF-ASG.yaml) |
 | ap-southeast-2 |AP (Sydney)| [![cloudformation-launch-stack](images/launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?region=ap-southeast-2#/stacks/new?stackName=WordPress&templateURL=https://luizfel-templates.s3.amazonaws.com/Wordpress/02-WP-SG-RDS-EFS-S3-ELB-CF-ASG.yaml) |
+
+## Reference
+
+Acloud lessons list
+acloud architecture image
+aws best practices
 
 #### :warning: Requirements :warning:
 
