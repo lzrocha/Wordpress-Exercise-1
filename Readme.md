@@ -1,10 +1,11 @@
 # Hosting WordPress on AWS - Exercise 1
 
-Version 2020.4.1 :satellite:
+Version 0.4.1 :satellite:
 
 ## Overview
 
 This reference architecture provides a set of resources to create an highly available, elastic,and scalable WordPress environment on AWS.
+Resources created using aws console.
 
 <p align="center">
   <img src="images/aws-architecture.png?style=centerme" alt="Architecure Overview">
@@ -46,8 +47,3 @@ service httpd start
   <img src="images/acloud-guru-ha-wordpress-site.png?style=centerme" alt="Acloud diagram">
 </p>
 
-## Next Updates :warning:
-
-* NAT Gateway
-* File System
-* Custom VPC
