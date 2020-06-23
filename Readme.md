@@ -1,15 +1,10 @@
-# Hosting WordPress on AWS - Exercise 1
-
-Version 0.4.1 :satellite:
+# Hosting WordPress on AWS
 
 ## Overview
 
 This reference architecture provides a set of resources to create a highly available, elastic, and scalable WordPress environment on AWS. 
-* Resources created using AWS console.
 
-<p align="center">
-  <img src="images/aws-architecture.png?style=centerme" alt="Architecure Overview">
-</p>
+* Resources created using AWS console.
 
 ## Boostrap
 ```bash
@@ -34,6 +29,12 @@ sed -i -e '$  a\*/1 * * * * root aws s3 cp --recursive /var/www/html/wp-content/
 chkconfig httpd on
 service httpd start
 ```
+
+## Architecture
+
+<p align="center">
+  <img src="images/aws-architecture.png?style=centerme" alt="Architecure Overview">
+</p>
 
 ## Reference
 
